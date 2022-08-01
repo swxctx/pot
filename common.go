@@ -1,6 +1,8 @@
 package pot
 
-import "time"
+import (
+	"time"
+)
 
 // paramsCacheExpiration
 func paramsCacheExpiration(expiation ...time.Duration) int64 {

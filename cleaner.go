@@ -1,12 +1,14 @@
 package pot
 
-import "time"
+import (
+	"time"
+)
 
 // cleaner 清理器
 type cleaner struct {
 	//执行间隔
 	Interval time.Duration
-	stop     chan int
+	stop     chan bool
 }
 
 /*
@@ -15,12 +17,12 @@ type cleaner struct {
   @receiver: cl
   @param: c
 */
-func (cl *cleaner) Run(c *cache) {
+func (cl *cleaner) run(c *cache) {
 	ticker := time.NewTicker(cl.Interval)
 	for {
 		select {
 		case <-ticker.C:
-			cl.DeleteExpired()
+			c.expiredRoutine()
 		case <-cl.stop:
 			ticker.Stop()
 			return
@@ -28,15 +30,34 @@ func (cl *cleaner) Run(c *cache) {
 	}
 }
 
-func (c *Client) stopJanitor() {
-	c.Cache.cleaner.stop <- true
+/*
+  startCleaner
+  @Desc: 启动处理器
+  @receiver: c
+*/
+func (c *Client) startCleaner() {
+	go c.cleaner.run(c.getCache())
 }
 
-func runJanitor(c *cache, ci time.Duration) {
-	j := &janitor{
-		Interval: ci,
+/*
+  stopJanitor
+  @Desc: 停止处理
+  @receiver: c
+*/
+func (c *Client) stopCleaner() {
+	c.cleaner.stop <- true
+}
+
+/*
+  newCleaner
+  @Desc: new cleaner
+  @param: interval
+  @return: *cleaner
+*/
+func newCleaner(interval time.Duration) *cleaner {
+	cleaner := &cleaner{
+		Interval: interval,
 		stop:     make(chan bool),
 	}
-	c.janitor = j
-	go j.Run(c)
+	return cleaner
 }
