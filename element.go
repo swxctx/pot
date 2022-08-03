@@ -1,6 +1,8 @@
 package pot
 
-import "time"
+import (
+	"time"
+)
 
 /*
   Element
@@ -21,7 +23,10 @@ type Element struct {
 */
 func (e *Element) expired() bool {
 	if e.Expiration > 0 && time.Now().Unix() < e.Expiration {
-		return true
+		return false
 	}
-	return false
+	if e.Expiration == EXPIRATION_NOT_SET {
+		return false
+	}
+	return true
 }

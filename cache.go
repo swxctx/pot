@@ -80,6 +80,7 @@ func (c *cache) exists(key string) bool {
 	c.mu.RLock()
 	elem, exists := c.elems[key]
 	if !exists {
+		c.mu.RUnlock()
 		return false
 	}
 
@@ -113,6 +114,7 @@ func (c *cache) ttl(key string) int64 {
 		c.mu.RUnlock()
 		return EXPIRATION_NOT_SET
 	}
+	c.mu.RUnlock()
 	return elem.Expiration - time.Now().Unix()
 }
 
@@ -132,8 +134,11 @@ func (c *cache) Expire(key string, expire time.Duration) bool {
 		c.mu.RUnlock()
 		return false
 	}
+	c.mu.RUnlock()
+	c.mu.Lock()
 	elem.Expiration = paramsCacheExpiration(expire)
-
+	c.elems[key] = elem
+	c.mu.Unlock()
 	return true
 }
 
