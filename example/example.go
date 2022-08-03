@@ -1,9 +1,10 @@
 package main
 
 import (
+	"time"
+
 	"github.com/swxctx/pot"
 	"github.com/swxctx/xlog"
-	"time"
 )
 
 func main() {
@@ -12,14 +13,14 @@ func main() {
 	})
 	xlog.Infof("pot init finish")
 	//set
-	if err := client.Set("pot:test", 1); err != nil {
+	if err := client.Set("pot:test", "1"); err != nil {
 		xlog.Errorf("pot set err-> %v", err)
 	}
 	xlog.Infof("pot set key-> pot:test, value-> 1")
 
-	value, err := client.Get("pot:test")
-	if err != nil {
-		xlog.Errorf("pot get err-> %v", err)
+	getCmd := client.Get("pot:test")
+	if getCmd.GetErr() != nil {
+		xlog.Errorf("pot get err-> %v", getCmd.GetErr())
 	}
-	xlog.Infof("pot get key-> pot:test, value-> %v", value)
+	xlog.Infof("pot get key-> pot:test, value-> %v", getCmd.String())
 }

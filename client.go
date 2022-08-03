@@ -43,9 +43,12 @@ func (c *Client) Set(key string, value interface{}, expiration ...time.Duration)
   @return: interface{}
   @return: error
 */
-func (c *Client) Get(key string) (interface{}, error) {
+func (c *Client) Get(key string) *StringCmd {
+	cmd := NewStringCmd(key)
 	if err := c.checkClientCache(); err != nil {
-		return nil, err
+		cmd.SetErr(err)
+		return cmd
 	}
-	return c.cache.get(key), nil
+	cmd.SetVal(c.cache.get(key))
+	return cmd
 }
