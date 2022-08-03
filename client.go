@@ -27,12 +27,15 @@ func (c *Client) checkClientCache() error {
   @param: expiration
   @return: error
 */
-func (c *Client) Set(key string, value interface{}, expiration ...time.Duration) error {
+func (c *Client) Set(key string, value interface{}, expiration ...time.Duration) *StatusCmd {
+	cmd := NewStatusCmd(key)
 	if err := c.checkClientCache(); err != nil {
-		return err
+		cmd.SetErr(err)
+		return cmd
 	}
 	c.cache.set(key, value, expiration...)
-	return nil
+	cmd.SetSuccess(true)
+	return cmd
 }
 
 /*
@@ -59,11 +62,15 @@ func (c *Client) Get(key string) *StringCmd {
   @receiver: c
   @param: key
 */
-func (c *Client) Del(key string) {
+func (c *Client) Del(key string) *StatusCmd {
+	cmd := NewStatusCmd(key)
 	if err := c.checkClientCache(); err != nil {
-		return
+		cmd.SetErr(err)
+		return cmd
 	}
 	c.cache.del(key)
+	cmd.SetSuccess(true)
+	return cmd
 }
 
 /*
@@ -73,11 +80,17 @@ func (c *Client) Del(key string) {
   @param: key
   @return: bool
 */
-func (c *Client) Exists(key string) bool {
+func (c *Client) Exists(key string) *StatusCmd {
+	cmd := NewStatusCmd(key)
 	if err := c.checkClientCache(); err != nil {
-		return false
+		cmd.SetErr(err)
+		return cmd
 	}
-	return c.cache.exists(key)
+	if c.cache.exists(key) {
+		cmd.SetResult(POT_ACTION_RESULT_EXISTS)
+	}
+	cmd.SetSuccess(true)
+	return cmd
 }
 
 /*
@@ -87,11 +100,15 @@ func (c *Client) Exists(key string) bool {
   @param: key
   @return: int64
 */
-func (c *Client) TTL(key string) int64 {
+func (c *Client) TTL(key string) *StatusCmd {
+	cmd := NewStatusCmd(key)
 	if err := c.checkClientCache(); err != nil {
-		return 0
+		cmd.SetErr(err)
+		return cmd
 	}
-	return c.cache.ttl(key)
+	cmd.SetSuccess(true)
+	cmd.SetResult(c.cache.ttl(key))
+	return cmd
 }
 
 /*
@@ -101,9 +118,13 @@ func (c *Client) TTL(key string) int64 {
   @param: key
   @param: expire
 */
-func (c *Client) Expire(key string, expire time.Duration) {
+func (c *Client) Expire(key string, expire time.Duration) *StatusCmd {
+	cmd := NewStatusCmd(key)
 	if err := c.checkClientCache(); err != nil {
-		return
+		cmd.SetErr(err)
+		return cmd
 	}
 	c.cache.Expire(key, expire)
+	cmd.SetSuccess(true)
+	return cmd
 }

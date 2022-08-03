@@ -23,6 +23,43 @@ func (c *baseCmd) SetVal(val interface{}) {
 }
 
 /*
+  StatusCmd
+  @Description: action status
+*/
+type StatusCmd struct {
+	baseCmd
+	//执行操作成功
+	success bool
+	//执行结果
+	result int64
+}
+
+// NewStatusCmd
+func NewStatusCmd(key string) *StatusCmd {
+	return &StatusCmd{
+		baseCmd: baseCmd{
+			key: key,
+		},
+	}
+}
+
+func (cmd *StatusCmd) SetSuccess(success bool) {
+	cmd.success = success
+}
+
+func (cmd *StatusCmd) Success() bool {
+	return cmd.success
+}
+
+func (cmd *StatusCmd) SetResult(result int64) {
+	cmd.result = result
+}
+
+func (cmd *StatusCmd) Result() int64 {
+	return cmd.result
+}
+
+/*
   StringCmd
   @Description: result string cmd
 */
@@ -30,12 +67,7 @@ type StringCmd struct {
 	baseCmd
 }
 
-/*
-  NewStringCmd
-  @Desc:
-  @param: args
-  @return: *StringCmd
-*/
+// NewStringCmd
 func NewStringCmd(key string) *StringCmd {
 	return &StringCmd{
 		baseCmd: baseCmd{
