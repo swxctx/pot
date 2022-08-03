@@ -10,5 +10,5 @@ func paramsCacheExpiration(expiation ...time.Duration) int64 {
 	if len(expiation) <= 0 {
 		return -1
 	}
-	return time.Now().Add(expiation[0]).UnixNano()
+	return time.Now().Add(expiation[0]).Unix()
 }

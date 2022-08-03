@@ -29,17 +29,6 @@ func newCache() *cache {
 }
 
 /*
-  Element
-  @Description: value 基本信息
-*/
-type Element struct {
-	//数据
-	Value interface{}
-	//过期时间
-	Expiration int64
-}
-
-/*
   Set
   @Desc: set value to cache
   @receiver: c
@@ -72,12 +61,80 @@ func (c *cache) get(key string) interface{} {
 		return nil
 	}
 	// expired
-	if elem.Expiration > 0 && time.Now().UnixNano() < elem.Expiration {
+	if elem.expired() {
 		c.mu.RUnlock()
 		return nil
 	}
 	c.mu.RUnlock()
 	return elem.Value
+}
+
+/*
+  exists
+  @Desc: check key is exists
+  @receiver: c
+  @param: key
+  @return: bool
+*/
+func (c *cache) exists(key string) bool {
+	c.mu.RLock()
+	elem, exists := c.elems[key]
+	if !exists {
+		return false
+	}
+
+	// expired
+	if elem.expired() {
+		c.mu.RUnlock()
+		return false
+	}
+	c.mu.RUnlock()
+	return true
+}
+
+/*
+  ttl
+  @Desc: get key ttl
+  @receiver: c
+  @param: key
+  @return: int64
+*/
+func (c *cache) ttl(key string) int64 {
+	c.mu.RLock()
+
+	//expired
+	elem, exists := c.elems[key]
+	if !exists || elem.expired() {
+		c.mu.RUnlock()
+		return EXPIRATION_IS_EXPIRED
+	}
+	//forever
+	if elem.Expiration == EXPIRATION_NOT_SET {
+		c.mu.RUnlock()
+		return EXPIRATION_NOT_SET
+	}
+	return elem.Expiration - time.Now().Unix()
+}
+
+/*
+  Expire
+  @Desc: set key expire
+  @receiver: c
+  @param: key
+  @param: expire
+  @return: bool
+*/
+func (c *cache) Expire(key string, expire time.Duration) bool {
+	c.mu.RLock()
+
+	elem, exists := c.elems[key]
+	if !exists || elem.expired() {
+		c.mu.RUnlock()
+		return false
+	}
+	elem.Expiration = paramsCacheExpiration(expire)
+
+	return true
 }
 
 /*
@@ -96,7 +153,7 @@ func (c *cache) del(key string) {
   @receiver: c
 */
 func (c *cache) expiredRoutine() {
-	now := time.Now().UnixNano()
+	now := time.Now().Unix()
 	c.mu.Lock()
 	for k, v := range c.elems {
 		if v.Expiration > 0 && now > v.Expiration {
