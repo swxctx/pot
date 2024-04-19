@@ -79,7 +79,7 @@ go build
 
 ### 直接下载安装包启动
 
-目前简单提供了`Mac`版本、`Linux`版本，下载到本地后直接运行`start.sh`即可启动，下载链接如下：
+目前简单提供了`Mac`版本、`Linux`版本，下载到本地后直接运行`./pot-server`即可启动，下载链接如下：
 
-- [Mac]()
-- [Linux amd64]()
+- [Mac](https://github.com/swxctx/pot/releases/tag/1.0.0-beta)
+- [Linux amd64](https://github.com/swxctx/pot/releases/tag/1.0.0-beta)

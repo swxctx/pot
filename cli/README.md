@@ -6,8 +6,8 @@
 可以直接运行 `Pot` 下的 `cli` 目录代码启动命令行终端，也可以直接下载打包好的二进制包在本地运行。
 
 - [直接运行代码](https://github.com/swxctx/pot/tree/main/cli)
-- [Linux]()
-- [Mac]()
+- [Linux](https://github.com/swxctx/pot/releases/tag/1.0.0-beta)
+- [Mac](https://github.com/swxctx/pot/releases/tag/1.0.0-beta)
 
 ### 命令使用
 
