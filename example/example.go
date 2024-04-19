@@ -3,47 +3,51 @@ package main
 import (
 	"time"
 
+	"github.com/swxctx/pot/plog"
+
 	"github.com/swxctx/pot"
-	"github.com/swxctx/xlog"
 )
 
 func main() {
-	client := pot.NewClient(&pot.Config{
+	client := pot.Init(&pot.Config{
 		CleanerInterval: time.Duration(1) * time.Second,
+		ShowTrace:       true,
 	})
-	xlog.Infof("pot init finish")
+	plog.Infof("pot init finish")
 
 	key := "pot:test"
 	//set
 	setCmd := client.Set(key, "1", time.Duration(10)*time.Second)
-	if setCmd.GetErr() != nil {
-		xlog.Errorf("pot set err-> %v", setCmd.GetErr())
+	if setCmd.Err() != nil {
+		plog.Errorf("pot set err-> %v", setCmd.Err())
 	}
-	xlog.Infof("pot set key-> %s, value-> 1, success-> %v", key, setCmd.Success())
+	plog.Infof("pot set key-> %s, value-> 1, success-> %v", key, setCmd.Success())
 
 	existsCmd := client.Exists(key)
-	if existsCmd.GetErr() != nil {
-		xlog.Errorf("pot exists err-> %v", existsCmd.GetErr())
+	if existsCmd.Err() != nil {
+		plog.Errorf("pot exists err-> %v", existsCmd.Err())
 	}
-	xlog.Infof("pot exists key-> %s, value-> 1, success-> %v, exists-> %v", key, existsCmd.Success(), existsCmd.Result() > 0)
+	plog.Infof("pot exists key-> %s, value-> 1, success-> %v, exists-> %v", key, existsCmd.Success(), existsCmd.Result() > 0)
 
 	ttlCmd := client.TTL(key)
-	if ttlCmd.GetErr() != nil {
-		xlog.Errorf("pot ttl err-> %v", ttlCmd.GetErr())
+	if ttlCmd.Err() != nil {
+		plog.Errorf("pot ttl err-> %v", ttlCmd.Err())
 	}
-	xlog.Infof("pot ttl key-> %s, value-> 1, success-> %v, ttl-> %v", key, ttlCmd.Success(), ttlCmd.Result())
+	plog.Infof("pot ttl key-> %s, value-> 1, success-> %v, ttl-> %v", key, ttlCmd.Success(), ttlCmd.Result())
 
 	expireCmd := client.Expire(key, time.Duration(5)*time.Second)
-	if expireCmd.GetErr() != nil {
-		xlog.Errorf("pot expire err-> %v", expireCmd.GetErr())
+	if expireCmd.Err() != nil {
+		plog.Errorf("pot expire err-> %v", expireCmd.Err())
 	}
-	xlog.Infof("pot expire key-> %s, value-> 1, success-> %v, current expire-> %v", key, expireCmd.Success(), client.TTL(key).Result())
+	plog.Infof("pot expire key-> %s, value-> 1, success-> %v, current expire-> %v", key, expireCmd.Success(), client.TTL(key).Result())
 
 	time.Sleep(time.Duration(10) * time.Second)
 
 	getCmd := client.Get(key)
-	if getCmd.GetErr() != nil {
-		xlog.Errorf("pot get err-> %v", getCmd.GetErr())
+	if getCmd.Err() != nil {
+		plog.Errorf("pot get err-> %v", getCmd.Err())
 	}
-	xlog.Infof("pot get key-> %s, value-> %v", key, getCmd.String())
+	plog.Infof("pot get key-> %s, value-> %v", key, getCmd.String())
+
+	select {}
 }

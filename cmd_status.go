@@ -28,9 +28,9 @@ StatusCmd
 */
 type StatusCmd struct {
 	baseCmd
-	//执行操作成功
+	// 执行操作成功
 	success bool
-	//执行结果
+	// 执行结果
 	result int64
 }
 
@@ -43,7 +43,7 @@ func NewStatusCmd(key string) *StatusCmd {
 	}
 }
 
-func (cmd *StatusCmd) SetSuccess(success bool) {
+func (cmd *StatusCmd) setSuccess(success bool) {
 	cmd.success = success
 }
 
@@ -51,7 +51,7 @@ func (cmd *StatusCmd) Success() bool {
 	return cmd.success
 }
 
-func (cmd *StatusCmd) SetResult(result int64) {
+func (cmd *StatusCmd) setResult(result int64) {
 	cmd.result = result
 }
 

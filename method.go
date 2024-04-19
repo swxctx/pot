@@ -30,17 +30,17 @@ Set
 func (c *Client) Set(key string, value interface{}, expiration ...time.Duration) *StatusCmd {
 	cmd := NewStatusCmd(key)
 	if err := c.checkClientCache(); err != nil {
-		cmd.SetErr(err)
+		cmd.setErr(err)
 		return cmd
 	}
 	c.cache.set(key, value, expiration...)
-	cmd.SetSuccess(true)
+	cmd.setSuccess(true)
 	return cmd
 }
 
 /*
 Get
-@Desc: get vavlue by cache
+@Desc: get value by cache
 @receiver: c
 @param: key
 @return: interface{}
@@ -49,10 +49,10 @@ Get
 func (c *Client) Get(key string) *StringCmd {
 	cmd := NewStringCmd(key)
 	if err := c.checkClientCache(); err != nil {
-		cmd.SetErr(err)
+		cmd.setErr(err)
 		return cmd
 	}
-	cmd.SetVal(c.cache.get(key))
+	cmd.setVal(c.cache.get(key))
 	return cmd
 }
 
@@ -65,11 +65,11 @@ Del
 func (c *Client) Del(key string) *StatusCmd {
 	cmd := NewStatusCmd(key)
 	if err := c.checkClientCache(); err != nil {
-		cmd.SetErr(err)
+		cmd.setErr(err)
 		return cmd
 	}
 	c.cache.del(key)
-	cmd.SetSuccess(true)
+	cmd.setSuccess(true)
 	return cmd
 }
 
@@ -83,19 +83,19 @@ Exists
 func (c *Client) Exists(key string) *StatusCmd {
 	cmd := NewStatusCmd(key)
 	if err := c.checkClientCache(); err != nil {
-		cmd.SetErr(err)
+		cmd.setErr(err)
 		return cmd
 	}
 	if c.cache.exists(key) {
-		cmd.SetResult(POT_ACTION_RESULT_EXISTS)
+		cmd.setResult(POT_ACTION_RESULT_EXISTS)
 	}
-	cmd.SetSuccess(true)
+	cmd.setSuccess(true)
 	return cmd
 }
 
 /*
 TTL
-@Desc: chech key expire ttl
+@Desc: check key expire ttl
 @receiver: c
 @param: key
 @return: int64
@@ -103,11 +103,11 @@ TTL
 func (c *Client) TTL(key string) *StatusCmd {
 	cmd := NewStatusCmd(key)
 	if err := c.checkClientCache(); err != nil {
-		cmd.SetErr(err)
+		cmd.setErr(err)
 		return cmd
 	}
-	cmd.SetSuccess(true)
-	cmd.SetResult(c.cache.ttl(key))
+	cmd.setSuccess(true)
+	cmd.setResult(c.cache.ttl(key))
 	return cmd
 }
 
@@ -121,10 +121,10 @@ Expire
 func (c *Client) Expire(key string, expire time.Duration) *StatusCmd {
 	cmd := NewStatusCmd(key)
 	if err := c.checkClientCache(); err != nil {
-		cmd.SetErr(err)
+		cmd.setErr(err)
 		return cmd
 	}
-	c.cache.Expire(key, expire)
-	cmd.SetSuccess(true)
+	c.cache.expire(key, expire)
+	cmd.setSuccess(true)
 	return cmd
 }
