@@ -1,14 +1,14 @@
 package pot
 
 import (
-	"time"
+	"github.com/swxctx/pot/plog"
 )
 
 /*
-Client
-@Description: pot client
+Pot
+@Description: pot
 */
-type Client struct {
+type Pot struct {
 	// config
 	Config *Config
 	// cache
@@ -18,45 +18,27 @@ type Client struct {
 }
 
 /*
-Config
-@Description: pot config
-*/
-type Config struct {
-	CleanerInterval   time.Duration
-	DefaultExpiration time.Duration
-}
-
-/*
 NewClient
 @Desc:
 @param: cfg
 */
-func NewClient(cfg *Config) *Client {
-	client := &Client{
+func Init(cfg *Config) *Pot {
+	plog.Infof("show trace info-> %v", cfg.ShowTrace)
+	if cfg.ShowTrace {
+		plog.SetLevel("trace")
+	}
+
+	client := &Pot{
 		Config:  cfg,
 		cache:   newCache(),
 		cleaner: newCleaner(cfg.CleanerInterval),
 	}
+
 	// start cleaner
 	client.startCleaner()
-	return client
-}
 
-/*
-getConfig
-@Desc: pot get config
-@receiver: c
-@return: *Config
-*/
-func (c *Client) getConfig() *Config {
-	if c.Config != nil {
-		return c.Config
-	}
-	c.Config = &Config{
-		CleanerInterval:   1,
-		DefaultExpiration: -1,
-	}
-	return c.Config
+	plog.Infof("init finish...")
+	return client
 }
 
 /*
@@ -65,10 +47,10 @@ getCache
 @receiver: c
 @return: *cache
 */
-func (c *Client) getCache() *cache {
-	if c.cache != nil {
-		return c.cache
+func (p *Pot) getCache() *cache {
+	if p.cache != nil {
+		return p.cache
 	}
-	c.cache = newCache()
-	return c.cache
+	p.cache = newCache()
+	return p.cache
 }
