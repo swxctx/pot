@@ -8,11 +8,11 @@ import (
 /*
 checkClientCache
 @Desc: check client
-@receiver: c
+@receiver: p
 @return: error
 */
-func (c *Client) checkClientCache() error {
-	if c.cache == nil || c.cache.elems == nil {
+func (p *Pot) checkClientCache() error {
+	if p.cache == nil || p.cache.elems == nil {
 		return fmt.Errorf("pot: client cache is nil, chech cache init")
 	}
 	return nil
@@ -21,19 +21,19 @@ func (c *Client) checkClientCache() error {
 /*
 Set
 @Desc: set value to cache
-@receiver: c
+@receiver: p
 @param: key
 @param: value
 @param: expiration
 @return: error
 */
-func (c *Client) Set(key string, value interface{}, expiration ...time.Duration) *StatusCmd {
+func (p *Pot) Set(key string, value interface{}, expiration ...time.Duration) *StatusCmd {
 	cmd := NewStatusCmd(key)
-	if err := c.checkClientCache(); err != nil {
+	if err := p.checkClientCache(); err != nil {
 		cmd.setErr(err)
 		return cmd
 	}
-	c.cache.set(key, value, expiration...)
+	p.cache.set(key, value, expiration...)
 	cmd.setSuccess(true)
 	return cmd
 }
@@ -41,34 +41,34 @@ func (c *Client) Set(key string, value interface{}, expiration ...time.Duration)
 /*
 Get
 @Desc: get value by cache
-@receiver: c
+@receiver: p
 @param: key
 @return: interface{}
 @return: error
 */
-func (c *Client) Get(key string) *StringCmd {
+func (p *Pot) Get(key string) *StringCmd {
 	cmd := NewStringCmd(key)
-	if err := c.checkClientCache(); err != nil {
+	if err := p.checkClientCache(); err != nil {
 		cmd.setErr(err)
 		return cmd
 	}
-	cmd.setVal(c.cache.get(key))
+	cmd.setVal(p.cache.get(key))
 	return cmd
 }
 
 /*
 Del
 @Desc:
-@receiver: c
+@receiver: p
 @param: key
 */
-func (c *Client) Del(key string) *StatusCmd {
+func (p *Pot) Del(key string) *StatusCmd {
 	cmd := NewStatusCmd(key)
-	if err := c.checkClientCache(); err != nil {
+	if err := p.checkClientCache(); err != nil {
 		cmd.setErr(err)
 		return cmd
 	}
-	c.cache.del(key)
+	p.cache.del(key)
 	cmd.setSuccess(true)
 	return cmd
 }
@@ -76,17 +76,17 @@ func (c *Client) Del(key string) *StatusCmd {
 /*
 Exists
 @Desc: check key exists
-@receiver: c
+@receiver: p
 @param: key
 @return: bool
 */
-func (c *Client) Exists(key string) *StatusCmd {
+func (p *Pot) Exists(key string) *StatusCmd {
 	cmd := NewStatusCmd(key)
-	if err := c.checkClientCache(); err != nil {
+	if err := p.checkClientCache(); err != nil {
 		cmd.setErr(err)
 		return cmd
 	}
-	if c.cache.exists(key) {
+	if p.cache.exists(key) {
 		cmd.setResult(POT_ACTION_RESULT_EXISTS)
 	}
 	cmd.setSuccess(true)
@@ -96,18 +96,18 @@ func (c *Client) Exists(key string) *StatusCmd {
 /*
 TTL
 @Desc: check key expire ttl
-@receiver: c
+@receiver: p
 @param: key
 @return: int64
 */
-func (c *Client) TTL(key string) *StatusCmd {
+func (p *Pot) TTL(key string) *StatusCmd {
 	cmd := NewStatusCmd(key)
-	if err := c.checkClientCache(); err != nil {
+	if err := p.checkClientCache(); err != nil {
 		cmd.setErr(err)
 		return cmd
 	}
 	cmd.setSuccess(true)
-	cmd.setResult(c.cache.ttl(key))
+	cmd.setResult(p.cache.ttl(key))
 	return cmd
 }
 
@@ -118,7 +118,7 @@ Expire
 @param: key
 @param: expire
 */
-func (c *Client) Expire(key string, expire time.Duration) *StatusCmd {
+func (c *Pot) Expire(key string, expire time.Duration) *StatusCmd {
 	cmd := NewStatusCmd(key)
 	if err := c.checkClientCache(); err != nil {
 		cmd.setErr(err)
