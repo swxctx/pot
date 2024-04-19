@@ -88,6 +88,8 @@ func (p *Pot) Exists(key string) *StatusCmd {
 	}
 	if p.cache.exists(key) {
 		cmd.setResult(POT_ACTION_RESULT_EXISTS)
+	} else {
+		cmd.setResult(EXPIRATION_IS_EXPIRED)
 	}
 	cmd.setSuccess(true)
 	return cmd
