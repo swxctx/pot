@@ -20,4 +20,6 @@ type response struct {
 	Value string `json:"v"`
 	// cache ttl
 	TTL int64 `json:"tl"`
+	// result exists
+	R int64 `json:"r,omitempty"`
 }

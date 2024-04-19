@@ -68,7 +68,7 @@ func main() {
 
 	// exists cmd
 	e := potClient.Exists(key)
-	if e.Result() == gopot.EXPIRATION_IS_EXPIRED {
+	if e.Result() < 1 {
 		fmt.Printf("key: %s not exists\n", key)
 	}
 
@@ -77,7 +77,7 @@ func main() {
 	fmt.Printf("again set key-> %s, success-> %v\n", key, s.Success())
 
 	// exists
-	if potClient.Exists(key).Result() != gopot.EXPIRATION_IS_EXPIRED {
+	if potClient.Exists(key).Result() > 0 {
 		fmt.Printf("key: %s exists\n", key)
 	}
 
@@ -85,7 +85,7 @@ func main() {
 	potClient.Del(key)
 
 	e1 := potClient.Exists(key)
-	if e1.Result() == gopot.EXPIRATION_IS_EXPIRED {
+	if e1.Result() < 1 {
 		fmt.Printf("key: %s not exists\n", key)
 	}
 }

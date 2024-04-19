@@ -37,18 +37,17 @@ func (c *PotClient) actionStatusCmd(actionCommand command) *StatusCmd {
 
 	if actionResponse == nil || actionResponse.Code != code_cmd_action_normal {
 		// err
-		if actionCommand.Cmd == cmd_exists {
-			return handleErrorResponseExists(actionResponse, statusCmd)
-		} else {
-			statusCmd = handleErrorResponse(actionResponse, statusCmd)
-		}
+		statusCmd = handleErrorResponse(actionResponse, statusCmd)
 		statusCmd.setSuccess(false)
 		return statusCmd
 	}
 
 	statusCmd.setSuccess(true)
-	if actionCommand.Cmd != cmd_exists {
+	if actionCommand.Cmd == cmd_ttl {
 		statusCmd.setResult(actionResponse.TTL)
+	}
+	if actionCommand.Cmd == cmd_exists {
+		statusCmd.setResult(actionResponse.R)
 	}
 	return statusCmd
 }
