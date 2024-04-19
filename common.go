@@ -6,7 +6,7 @@ import (
 
 // paramsCacheExpiration
 func paramsCacheExpiration(expiation ...time.Duration) int64 {
-	//未设置，默认永久有效
+	// 未设置，默认永久有效
 	if len(expiation) <= 0 {
 		return -1
 	}

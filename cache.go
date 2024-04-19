@@ -3,6 +3,8 @@ package pot
 import (
 	"sync"
 	"time"
+
+	"github.com/swxctx/pot/plog"
 )
 
 /*
@@ -12,7 +14,8 @@ cache
 type cache struct {
 	// cache value
 	elems map[string]Element
-	mu    sync.RWMutex
+	// mutex
+	mu sync.RWMutex
 }
 
 /*
@@ -22,10 +25,12 @@ newCache
 */
 func newCache() *cache {
 	elems := make(map[string]Element)
-	cache := &cache{
+	cacheVal := &cache{
 		elems: elems,
 	}
-	return cache
+
+	plog.Infof("cache init finish...")
+	return cacheVal
 }
 
 /*
@@ -119,14 +124,14 @@ func (c *cache) ttl(key string) int64 {
 }
 
 /*
-Expire
+expire
 @Desc: set key expire
 @receiver: c
 @param: key
 @param: expire
 @return: bool
 */
-func (c *cache) Expire(key string, expire time.Duration) bool {
+func (c *cache) expire(key string, expire time.Duration) bool {
 	c.mu.RLock()
 
 	elem, exists := c.elems[key]
@@ -158,7 +163,10 @@ expired
 @receiver: c
 */
 func (c *cache) expiredRoutine() {
-	now := time.Now().Unix()
+	nowTime := time.Now()
+	now := nowTime.Unix()
+	plog.Tracef("expiredRoutine running, start-> %dms", nowTime.UnixNano()/1000)
+
 	c.mu.Lock()
 	for k, v := range c.elems {
 		if v.Expiration > 0 && now > v.Expiration {
@@ -166,4 +174,6 @@ func (c *cache) expiredRoutine() {
 		}
 	}
 	c.mu.Unlock()
+
+	plog.Tracef("expiredRoutine finish, elapsed-> %dms", time.Now().UnixNano()/1000-nowTime.UnixNano()/1000)
 }

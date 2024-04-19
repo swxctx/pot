@@ -2,22 +2,27 @@ package pot
 
 import (
 	"time"
+
+	"github.com/swxctx/pot/plog"
 )
 
-// cleaner 清理器
+// cleaner job for clean cache
 type cleaner struct {
-	//执行间隔
+	// run interval
 	Interval time.Duration
-	stop     chan bool
+	// stop flag
+	stop chan bool
 }
 
 /*
 Run
-@Desc: run value clean rountine
+@Desc: run value clean routine
 @receiver: cl
 @param: c
 */
 func (cl *cleaner) run(c *cache) {
+	plog.Infof("run cleaner job...")
+
 	ticker := time.NewTicker(cl.Interval)
 	for {
 		select {
@@ -35,17 +40,17 @@ startCleaner
 @Desc: 启动处理器
 @receiver: c
 */
-func (c *Client) startCleaner() {
-	go c.cleaner.run(c.getCache())
+func (p *Pot) startCleaner() {
+	go p.cleaner.run(p.getCache())
 }
 
 /*
 stopJanitor
 @Desc: 停止处理
-@receiver: c
+@receiver: p
 */
-func (c *Client) stopCleaner() {
-	c.cleaner.stop <- true
+func (p *Pot) stopCleaner() {
+	p.cleaner.stop <- true
 }
 
 /*
@@ -54,10 +59,16 @@ newCleaner
 @param: interval
 @return: *cleaner
 */
-func newCleaner(interval time.Duration) *cleaner {
-	cleaner := &cleaner{
+func newCleaner(intervalArg time.Duration) *cleaner {
+	interval := intervalArg
+	if interval.Seconds() == 0 {
+		interval = time.Duration(1) * time.Second
+	}
+	cleanerVal := &cleaner{
 		Interval: interval,
 		stop:     make(chan bool),
 	}
-	return cleaner
+
+	plog.Infof("cleaner init finish, interval second-> %vs", interval.Seconds())
+	return cleanerVal
 }

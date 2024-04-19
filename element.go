@@ -6,12 +6,12 @@ import (
 
 /*
 Element
-@Description: value 基本信息
+@Description: value
 */
 type Element struct {
-	//数据
+	// cache value
 	Value interface{}
-	//过期时间
+	// cache expire in
 	Expiration int64
 }
 
