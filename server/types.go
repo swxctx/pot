@@ -32,11 +32,13 @@ func parseCmd(data []byte) (*command, error) {
 // response
 type response struct {
 	// cache err
-	Code int `json:"c"`
+	Code int `json:"c,omitempty"`
 	// cache value
-	Value string `json:"v"`
+	Value string `json:"v,omitempty"`
 	// cache ttl
-	TTL int64 `json:"tl"`
+	TTL int64 `json:"tl,omitempty"`
+	// result exists
+	R int64 `json:"r,omitempty"`
 }
 
 // marshalResponse

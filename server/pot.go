@@ -10,10 +10,12 @@ import (
 var (
 	// pot cache client
 	potClient *pot.Pot
+
+	version = "1.0.0-beta"
 )
 
 func main() {
-	plog.Infof("pot server start...")
+	plog.Infof("pot server start, version: %s", version)
 	plog.Infof("pot server reload config...")
 
 	// init config

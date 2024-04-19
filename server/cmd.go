@@ -6,8 +6,6 @@ import (
 	"net"
 	"time"
 
-	"github.com/swxctx/pot"
-
 	"github.com/swxctx/pot/plog"
 )
 
@@ -111,12 +109,17 @@ func cmdRunLogic(conn net.Conn, cmdData []byte) {
 			return
 		}
 
-		code := code_cmd_action_normal
-		if existsCmd.Result() != pot.POT_ACTION_RESULT_EXISTS {
-			code = code_cmd_action_key_not_exists
+		// response marshal
+		val, err := marshalResponse(&response{
+			Code: code_cmd_action_normal,
+			R:    existsCmd.Result(),
+		})
+		if err != nil {
+			plog.Errorf("cmdRunLogic: cache exists, key-> %s, err-> %v", cmd.Key, err)
+			responseInterval(conn)
 		}
-		plog.Tracef("cmdRunLogic: cache exists, success, key-> %s, exists-> %d", cmd.Key, code)
-		responseOnlyCode(conn, code)
+		plog.Tracef("cmdRunLogic: cache exists, success, key-> %s, exists-> %d", cmd.Key, existsCmd.Result())
+		responseClient(conn, val)
 		break
 	case cmd_ttl:
 		// cache ttl

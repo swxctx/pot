@@ -4,9 +4,6 @@ const (
 	// code_cmd_action_normal 正常执行
 	code_cmd_action_normal = 0
 
-	// code_cmd_action_key_not_exists key不存在
-	code_cmd_action_key_not_exists = 10
-
 	// code_err_for_parse_internal 内部错误
 	code_err_for_parse_internal = 100
 
