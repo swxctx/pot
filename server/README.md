@@ -10,6 +10,8 @@
 - del
 - exists
 
+[Pot Server通信协议](https://github.com/swxctx/pot/blob/main/server/protocol.md)
+
 ## 安装
 `Pot`提供源码，所以比较灵活，可以直接编译启动即可，同时也提供了打包好的安装包，直接下载启动即可。
 

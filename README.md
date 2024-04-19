@@ -39,11 +39,20 @@
 
 - 通信协议：`TCP`
 - 端口：默认`9577`
+- [Pot Server通信协议](https://github.com/swxctx/pot/blob/main/server/protocol.md)
 - [支持直接运行源码启动](https://github.com/swxctx/pot/tree/main/server#%E7%9B%B4%E6%8E%A5%E8%BF%90%E8%A1%8C%E6%BA%90%E7%A0%81%E5%90%AF%E5%8A%A8)
 - [支持源码编译启动](https://github.com/swxctx/pot/tree/main/server#%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85)
 - [支持直接下载安装包启动](https://github.com/swxctx/pot/tree/main/server#%E7%9B%B4%E6%8E%A5%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E5%8C%85%E5%90%AF%E5%8A%A8)
 - [支持安装进行本地CLI调用](https://github.com/swxctx/pot/tree/main/cli)
 - [提供多种语言调用客户端代码](https://github.com/swxctx/pot/tree/main/library)
+
+***Pot Server运行效果***
+
+![](./doc/server_run.jpg)
+
+***Pot CLI运行效果***
+
+![](./doc/cli_run.jpg)
 
 
 ## 单机调用
