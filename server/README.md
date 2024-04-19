@@ -83,3 +83,15 @@ go build
 
 - [Mac](https://github.com/swxctx/pot/releases/tag/1.0.0-beta)
 - [Linux amd64](https://github.com/swxctx/pot/releases/tag/1.0.0-beta)
+
+### 配置修改
+
+打开`config/config.json`文件，会有如下内容：
+
+```
+{
+    "port": "9577", // 监听端口号
+    "cleaner_interval": 1000, // 过期key清除间隔
+    "show_trace": true // 是否展示详细的调用信息
+}
+```
