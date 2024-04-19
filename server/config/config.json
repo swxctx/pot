@@ -1,0 +1,5 @@
+{
+    "port": "9577",
+    "cleaner_interval": 1000,
+    "show_trace": true
+}
