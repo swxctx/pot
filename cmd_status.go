@@ -12,8 +12,8 @@ type StatusCmd struct {
 	result int64
 }
 
-// NewStatusCmd
-func NewStatusCmd(key string) *StatusCmd {
+// newStatusCmd
+func newStatusCmd(key string) *StatusCmd {
 	return &StatusCmd{
 		baseCmd: baseCmd{
 			key: key,

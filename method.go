@@ -28,7 +28,7 @@ Set
 @return: error
 */
 func (p *Pot) Set(key string, value interface{}, expiration ...time.Duration) *StatusCmd {
-	cmd := NewStatusCmd(key)
+	cmd := newStatusCmd(key)
 	if err := p.checkClientCache(); err != nil {
 		cmd.setErr(err)
 		return cmd
@@ -47,7 +47,7 @@ Get
 @return: error
 */
 func (p *Pot) Get(key string) *StringCmd {
-	cmd := NewStringCmd(key)
+	cmd := newStringCmd(key)
 	if err := p.checkClientCache(); err != nil {
 		cmd.setErr(err)
 		return cmd
@@ -63,7 +63,7 @@ Del
 @param: key
 */
 func (p *Pot) Del(key string) *StatusCmd {
-	cmd := NewStatusCmd(key)
+	cmd := newStatusCmd(key)
 	if err := p.checkClientCache(); err != nil {
 		cmd.setErr(err)
 		return cmd
@@ -81,7 +81,7 @@ Exists
 @return: bool
 */
 func (p *Pot) Exists(key string) *StatusCmd {
-	cmd := NewStatusCmd(key)
+	cmd := newStatusCmd(key)
 	if err := p.checkClientCache(); err != nil {
 		cmd.setErr(err)
 		return cmd
@@ -101,7 +101,7 @@ TTL
 @return: int64
 */
 func (p *Pot) TTL(key string) *StatusCmd {
-	cmd := NewStatusCmd(key)
+	cmd := newStatusCmd(key)
 	if err := p.checkClientCache(); err != nil {
 		cmd.setErr(err)
 		return cmd
@@ -119,7 +119,7 @@ Expire
 @param: expire
 */
 func (c *Pot) Expire(key string, expire time.Duration) *StatusCmd {
-	cmd := NewStatusCmd(key)
+	cmd := newStatusCmd(key)
 	if err := c.checkClientCache(); err != nil {
 		cmd.setErr(err)
 		return cmd

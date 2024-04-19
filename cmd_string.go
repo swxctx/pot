@@ -8,8 +8,8 @@ type StringCmd struct {
 	baseCmd
 }
 
-// NewStringCmd
-func NewStringCmd(key string) *StringCmd {
+// newStringCmd
+func newStringCmd(key string) *StringCmd {
 	return &StringCmd{
 		baseCmd: baseCmd{
 			key: key,
