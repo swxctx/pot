@@ -33,4 +33,4 @@
 ***Golang库***<br>
 单机使用即针对于服务器单台机器部署的情况，这种情况下，不需要多台机器的业务服务进行缓存同步，那么直接引用当前的实现库也是可以的。也可以使用 [gset](https://github.com/usthooz/gset) 实现，在远程调用时推荐使用Pot<br>
 
-***以下为安装方法及调用代码***
+[***Go语言单机缓存服务可以参照此处进行工具库使用***](https://github.com/swxctx/pot/tree/main/example)
