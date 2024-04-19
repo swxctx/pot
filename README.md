@@ -1,79 +1,36 @@
-# pot
-- 基于Golang实现的 k-v存储，目前规划为轻量、便捷、小容量，用于在简单业务中进行一些临时数据、轻量逻辑的实现。
+## Pot
+- 基于Golang实现的 k-v 缓存数据库，目前规划为轻量、便捷、小容量，用于在简单业务中进行一些临时数据、轻量逻辑的实现。
 - 接下来会逐步进行完善，实现完善的k-v存储DB
 
-# 功能规划
-- [x] 基础架构
-- [x] 基础存储功能
-- [x] key有效期处理
-- [x] 返回数据类型处理
-- [ ] 支持基础数据、有序集合、无序集合
+## 功能规划
+- ✅ 基础架构
+- ✅ 基础存储功能
+- ✅ Key支持有效期设置
+- ✅ 过期Key清除功能
+- ✅ 返回数据类型处理
+- ✅ 远程调用支持
 - [ ] 支持备份到磁盘
 - [ ] 支持重启数据恢复
-- [ ] 支持HTTP接口操作
-- [ ] 支持TCP协议支持
+- [ ] 支持基础数据、有序集合、无序集合
 - [ ] 支持多机分布式部署
-- [ ] 待定
 
-# Install
 
-```go
-go get github.com/swxctx/pot
-```
+## 远程调用
+远程调用实现方案，即单独部署一台`Pot`存储服务，业务服务通过TCP连接后进行远程调用，该方案适用于业务服务分布式部署、多机部署、缓存同步的情况。<br>
 
-# Example
-```go
-package main
+***具体使用方法可通过下面的链接进行深入了解***
 
-import (
-	"time"
+- 通信协议：`TCP`
+- 端口：默认`9577`
+- [支持直接运行源码启动](https://github.com/swxctx/pot/tree/main/server#%E7%9B%B4%E6%8E%A5%E8%BF%90%E8%A1%8C%E6%BA%90%E7%A0%81%E5%90%AF%E5%8A%A8)
+- [支持源码编译启动](https://github.com/swxctx/pot/tree/main/server#%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85)
+- [支持直接下载安装包启动](https://github.com/swxctx/pot/tree/main/server#%E7%9B%B4%E6%8E%A5%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E5%8C%85%E5%90%AF%E5%8A%A8)
+- [支持安装进行本地CLI调用]()
+- [提供多种语言调用客户端代码](https://github.com/swxctx/pot/tree/main/library)
 
-	"github.com/swxctx/pot/plog"
 
-	"github.com/swxctx/pot"
-)
+## 单机调用
+***Golang库***<br>
+单机使用即针对于服务器单台机器部署的情况，这种情况下，不需要多台机器的业务服务进行缓存同步，那么直接引用当前的实现库也是可以的。也可以使用 [gset](https://github.com/usthooz/gset) 实现，在远程调用时推荐使用Pot<br>
 
-func main() {
-	client := pot.Init(&pot.Config{
-		CleanerInterval: time.Duration(1) * time.Second,
-		ShowTrace:       true,
-	})
-	plog.Infof("pot init finish")
-
-	key := "pot:test"
-	//set
-	setCmd := client.Set(key, "1", time.Duration(10)*time.Second)
-	if setCmd.Err() != nil {
-		plog.Errorf("pot set err-> %v", setCmd.Err())
-	}
-	plog.Infof("pot set key-> %s, value-> 1, success-> %v", key, setCmd.Success())
-
-	existsCmd := client.Exists(key)
-	if existsCmd.Err() != nil {
-		plog.Errorf("pot exists err-> %v", existsCmd.Err())
-	}
-	plog.Infof("pot exists key-> %s, value-> 1, success-> %v, exists-> %v", key, existsCmd.Success(), existsCmd.Result() > 0)
-
-	ttlCmd := client.TTL(key)
-	if ttlCmd.Err() != nil {
-		plog.Errorf("pot ttl err-> %v", ttlCmd.Err())
-	}
-	plog.Infof("pot ttl key-> %s, value-> 1, success-> %v, ttl-> %v", key, ttlCmd.Success(), ttlCmd.Result())
-
-	expireCmd := client.Expire(key, time.Duration(5)*time.Second)
-	if expireCmd.Err() != nil {
-		plog.Errorf("pot expire err-> %v", expireCmd.Err())
-	}
-	plog.Infof("pot expire key-> %s, value-> 1, success-> %v, current expire-> %v", key, expireCmd.Success(), client.TTL(key).Result())
-
-	time.Sleep(time.Duration(10) * time.Second)
-
-	getCmd := client.Get(key)
-	if getCmd.Err() != nil {
-		plog.Errorf("pot get err-> %v", getCmd.Err())
-	}
-	plog.Infof("pot get key-> %s, value-> %v", key, getCmd.String())
-
-	select {}
-}
-```
+***以下为安装方法及调用代码***
