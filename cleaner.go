@@ -12,10 +12,10 @@ type cleaner struct {
 }
 
 /*
-  Run
-  @Desc: run value clean rountine
-  @receiver: cl
-  @param: c
+Run
+@Desc: run value clean rountine
+@receiver: cl
+@param: c
 */
 func (cl *cleaner) run(c *cache) {
 	ticker := time.NewTicker(cl.Interval)
@@ -31,28 +31,28 @@ func (cl *cleaner) run(c *cache) {
 }
 
 /*
-  startCleaner
-  @Desc: 启动处理器
-  @receiver: c
+startCleaner
+@Desc: 启动处理器
+@receiver: c
 */
 func (c *Client) startCleaner() {
 	go c.cleaner.run(c.getCache())
 }
 
 /*
-  stopJanitor
-  @Desc: 停止处理
-  @receiver: c
+stopJanitor
+@Desc: 停止处理
+@receiver: c
 */
 func (c *Client) stopCleaner() {
 	c.cleaner.stop <- true
 }
 
 /*
-  newCleaner
-  @Desc: new cleaner
-  @param: interval
-  @return: *cleaner
+newCleaner
+@Desc: new cleaner
+@param: interval
+@return: *cleaner
 */
 func newCleaner(interval time.Duration) *cleaner {
 	cleaner := &cleaner{

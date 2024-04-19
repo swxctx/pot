@@ -5,8 +5,8 @@ import (
 )
 
 /*
-  Element
-  @Description: value 基本信息
+Element
+@Description: value 基本信息
 */
 type Element struct {
 	//数据
@@ -16,10 +16,10 @@ type Element struct {
 }
 
 /*
-  expired
-  @Desc: check element is expired
-  @param: elem
-  @return: bool
+expired
+@Desc: check element is expired
+@param: elem
+@return: bool
 */
 func (e *Element) expired() bool {
 	if e.Expiration > 0 && time.Now().Unix() < e.Expiration {

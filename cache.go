@@ -6,8 +6,8 @@ import (
 )
 
 /*
-  cache
-  @Description: cache element
+cache
+@Description: cache element
 */
 type cache struct {
 	// cache value
@@ -16,9 +16,9 @@ type cache struct {
 }
 
 /*
-  newCache
-  @Desc: new cache
-  @return: *cache
+newCache
+@Desc: new cache
+@return: *cache
 */
 func newCache() *cache {
 	elems := make(map[string]Element)
@@ -29,12 +29,12 @@ func newCache() *cache {
 }
 
 /*
-  Set
-  @Desc: set value to cache
-  @receiver: c
-  @param: key
-  @param: value
-  @param: expiration
+Set
+@Desc: set value to cache
+@receiver: c
+@param: key
+@param: value
+@param: expiration
 */
 func (c *cache) set(key string, value interface{}, expiration ...time.Duration) {
 	c.mu.Lock()
@@ -46,12 +46,12 @@ func (c *cache) set(key string, value interface{}, expiration ...time.Duration) 
 }
 
 /*
-  Get
-  @Desc: get value by cache
-  @receiver: c
-  @param: key
-  @return: interface{}
-  @return: bool
+Get
+@Desc: get value by cache
+@receiver: c
+@param: key
+@return: interface{}
+@return: bool
 */
 func (c *cache) get(key string) interface{} {
 	c.mu.RLock()
@@ -70,11 +70,11 @@ func (c *cache) get(key string) interface{} {
 }
 
 /*
-  exists
-  @Desc: check key is exists
-  @receiver: c
-  @param: key
-  @return: bool
+exists
+@Desc: check key is exists
+@receiver: c
+@param: key
+@return: bool
 */
 func (c *cache) exists(key string) bool {
 	c.mu.RLock()
@@ -94,11 +94,11 @@ func (c *cache) exists(key string) bool {
 }
 
 /*
-  ttl
-  @Desc: get key ttl
-  @receiver: c
-  @param: key
-  @return: int64
+ttl
+@Desc: get key ttl
+@receiver: c
+@param: key
+@return: int64
 */
 func (c *cache) ttl(key string) int64 {
 	c.mu.RLock()
@@ -119,12 +119,12 @@ func (c *cache) ttl(key string) int64 {
 }
 
 /*
-  Expire
-  @Desc: set key expire
-  @receiver: c
-  @param: key
-  @param: expire
-  @return: bool
+Expire
+@Desc: set key expire
+@receiver: c
+@param: key
+@param: expire
+@return: bool
 */
 func (c *cache) Expire(key string, expire time.Duration) bool {
 	c.mu.RLock()
@@ -143,19 +143,19 @@ func (c *cache) Expire(key string, expire time.Duration) bool {
 }
 
 /*
-  delete
-  @Desc: 删除key
-  @receiver: c
-  @param: k
+delete
+@Desc: 删除key
+@receiver: c
+@param: k
 */
 func (c *cache) del(key string) {
 	delete(c.elems, key)
 }
 
 /*
-  expired
-  @Desc: key过期处理
-  @receiver: c
+expired
+@Desc: key过期处理
+@receiver: c
 */
 func (c *cache) expiredRoutine() {
 	now := time.Now().Unix()

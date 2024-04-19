@@ -23,8 +23,8 @@ func (c *baseCmd) SetVal(val interface{}) {
 }
 
 /*
-  StatusCmd
-  @Description: action status
+StatusCmd
+@Description: action status
 */
 type StatusCmd struct {
 	baseCmd
@@ -60,8 +60,8 @@ func (cmd *StatusCmd) Result() int64 {
 }
 
 /*
-  StringCmd
-  @Description: result string cmd
+StringCmd
+@Description: result string cmd
 */
 type StringCmd struct {
 	baseCmd

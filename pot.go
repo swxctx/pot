@@ -5,8 +5,8 @@ import (
 )
 
 /*
-  Client
-  @Description: pot client
+Client
+@Description: pot client
 */
 type Client struct {
 	// config
@@ -18,8 +18,8 @@ type Client struct {
 }
 
 /*
-  Config
-  @Description: pot config
+Config
+@Description: pot config
 */
 type Config struct {
 	CleanerInterval   time.Duration
@@ -27,9 +27,9 @@ type Config struct {
 }
 
 /*
-  NewClient
-  @Desc:
-  @param: cfg
+NewClient
+@Desc:
+@param: cfg
 */
 func NewClient(cfg *Config) *Client {
 	client := &Client{
@@ -43,10 +43,10 @@ func NewClient(cfg *Config) *Client {
 }
 
 /*
-  getConfig
-  @Desc: pot get config
-  @receiver: c
-  @return: *Config
+getConfig
+@Desc: pot get config
+@receiver: c
+@return: *Config
 */
 func (c *Client) getConfig() *Config {
 	if c.Config != nil {
@@ -60,10 +60,10 @@ func (c *Client) getConfig() *Config {
 }
 
 /*
-  getCache
-  @Desc: 获取cache
-  @receiver: c
-  @return: *cache
+getCache
+@Desc: 获取cache
+@receiver: c
+@return: *cache
 */
 func (c *Client) getCache() *cache {
 	if c.cache != nil {

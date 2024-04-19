@@ -6,10 +6,10 @@ import (
 )
 
 /*
-  valConvertString
-  @Desc: 数据转换
-  @param: value
-  @return: string
+valConvertString
+@Desc: 数据转换
+@param: value
+@return: string
 */
 func valConvertString(value interface{}) string {
 	var (
@@ -68,10 +68,10 @@ func valConvertString(value interface{}) string {
 }
 
 /*
-  valConvertUint64
-  @Desc: parse to uint64
-  @param: value
-  @return: uint64
+valConvertUint64
+@Desc: parse to uint64
+@param: value
+@return: uint64
 */
 func valConvertUint64(value interface{}) uint64 {
 	var (
@@ -111,10 +111,10 @@ func valConvertUint64(value interface{}) uint64 {
 }
 
 /*
-  valConvertInt64
-  @Desc: parse to int64
-  @param: value
-  @return: uint64
+valConvertInt64
+@Desc: parse to int64
+@param: value
+@return: uint64
 */
 func valConvertInt64(value interface{}) int64 {
 	var (
@@ -154,10 +154,10 @@ func valConvertInt64(value interface{}) int64 {
 }
 
 /*
-  valConvertFloat64
-  @Desc: parse to float64
-  @param: value
-  @return: uint64
+valConvertFloat64
+@Desc: parse to float64
+@param: value
+@return: uint64
 */
 func valConvertFloat64(value interface{}) float64 {
 	var (

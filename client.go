@@ -6,10 +6,10 @@ import (
 )
 
 /*
-  checkClientCache
-  @Desc: check client
-  @receiver: c
-  @return: error
+checkClientCache
+@Desc: check client
+@receiver: c
+@return: error
 */
 func (c *Client) checkClientCache() error {
 	if c.cache == nil || c.cache.elems == nil {
@@ -19,13 +19,13 @@ func (c *Client) checkClientCache() error {
 }
 
 /*
-  Set
-  @Desc: set value to cache
-  @receiver: c
-  @param: key
-  @param: value
-  @param: expiration
-  @return: error
+Set
+@Desc: set value to cache
+@receiver: c
+@param: key
+@param: value
+@param: expiration
+@return: error
 */
 func (c *Client) Set(key string, value interface{}, expiration ...time.Duration) *StatusCmd {
 	cmd := NewStatusCmd(key)
@@ -39,12 +39,12 @@ func (c *Client) Set(key string, value interface{}, expiration ...time.Duration)
 }
 
 /*
-  Get
-  @Desc: get vavlue by cache
-  @receiver: c
-  @param: key
-  @return: interface{}
-  @return: error
+Get
+@Desc: get vavlue by cache
+@receiver: c
+@param: key
+@return: interface{}
+@return: error
 */
 func (c *Client) Get(key string) *StringCmd {
 	cmd := NewStringCmd(key)
@@ -57,10 +57,10 @@ func (c *Client) Get(key string) *StringCmd {
 }
 
 /*
-  Del
-  @Desc:
-  @receiver: c
-  @param: key
+Del
+@Desc:
+@receiver: c
+@param: key
 */
 func (c *Client) Del(key string) *StatusCmd {
 	cmd := NewStatusCmd(key)
@@ -74,11 +74,11 @@ func (c *Client) Del(key string) *StatusCmd {
 }
 
 /*
-  Exists
-  @Desc: check key exists
-  @receiver: c
-  @param: key
-  @return: bool
+Exists
+@Desc: check key exists
+@receiver: c
+@param: key
+@return: bool
 */
 func (c *Client) Exists(key string) *StatusCmd {
 	cmd := NewStatusCmd(key)
@@ -94,11 +94,11 @@ func (c *Client) Exists(key string) *StatusCmd {
 }
 
 /*
-  TTL
-  @Desc: chech key expire ttl
-  @receiver: c
-  @param: key
-  @return: int64
+TTL
+@Desc: chech key expire ttl
+@receiver: c
+@param: key
+@return: int64
 */
 func (c *Client) TTL(key string) *StatusCmd {
 	cmd := NewStatusCmd(key)
@@ -112,11 +112,11 @@ func (c *Client) TTL(key string) *StatusCmd {
 }
 
 /*
-  Expire
-  @Desc: set key expire
-  @receiver: c
-  @param: key
-  @param: expire
+Expire
+@Desc: set key expire
+@receiver: c
+@param: key
+@param: expire
 */
 func (c *Client) Expire(key string, expire time.Duration) *StatusCmd {
 	cmd := NewStatusCmd(key)
