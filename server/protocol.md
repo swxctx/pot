@@ -9,15 +9,15 @@
 ```
 {
 	"c": 	"set",
-	"key": 	"test",
-	"value": "123",
-	"expire": 10
+	"k": 	"test",
+	"v": "123",
+	"ep": 10
 }
 
-c: 操作的命令
-key: 缓存key
-value: 缓存的内容
-expire: 缓存有效期，单位为秒
+c: 操作的命令(cmd)
+k: 缓存key(key)
+v: 缓存的内容(value)
+ep: 缓存有效期，单位为秒(expire)
 ```
 
 - `CMD命令`
